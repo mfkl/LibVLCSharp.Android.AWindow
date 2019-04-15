@@ -1,13 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
+//    compileSdkVersion 27
 
 
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion 17
+        targetSdkVersion 28
+        compileSdkVersion 28
+
         versionCode 1
         versionName "1.0"
 
@@ -26,6 +28,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
+    api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
 
     implementation 'com.android.support:appcompat-v7:27.1.0'
 }
