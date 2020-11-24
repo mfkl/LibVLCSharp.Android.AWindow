@@ -19,18 +19,21 @@ _TODO: check Android API the Java code is compiled against._
 
 ### Compile the relevant java code
 
-```cmd
-git clone https://code.videolan.org/videolan/vlc-android
-```
-
-Checkout the revision you target on vlc-android: 3.0.0, 3.0.1, 3.0.2, etc...
+- Get the sources (3.3.8): https://bintray.com/videolan/Android/download_file?file_path=org%2Fvideolan%2Fandroid%2Flibvlc-all%2F3.3.8%2Flibvlc-all-3.3.8-sources.jar
+- Get the .so files https://bintray.com/videolan/Android/download_file?file_path=org%2Fvideolan%2Fandroid%2Flibvlc-all%2F3.3.8%2Flibvlc-all-3.3.8.aar
 
 As of libvlc 3.0, you need to extract 3 Java files.
 - `AndroidUtil`
 - `AWindow`
 - `IVLCVout`
 
-To get the .aar file, run `assemblyRelease` in the Gradle window of Android Studio.
+- Put them at this location `MyApplication\org.videolan.libvlc\src\main\java`.
+
+- Install gradle from choco https://chocolatey.org/packages/gradle
+
+- run `gradle wrapper`
+
+- finally run `.\gradlew assembleRelease` from `LibVLCSharp.Android.AWindow\MyApplication`
 
 Extract the aar file from 
 
