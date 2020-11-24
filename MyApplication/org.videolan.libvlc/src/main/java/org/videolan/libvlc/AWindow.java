@@ -31,6 +31,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
+import org.videolan.libvlc.interfaces.IVLCVout;
+
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -94,7 +96,6 @@ public class AWindow implements IVLCVout {
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         private void attachTextureView() {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
-            setSurface(new Surface(mTextureView.getSurfaceTexture()));
         }
 
         private void attachSurface() {
@@ -582,7 +583,7 @@ public class AWindow implements IVLCVout {
         private SurfaceTextureThread() {
         }
 
-        private synchronized boolean attachToGLContext(int texName) {
+        private synchronized boolean createSurface() {
             /* Try to re-use the same SurfaceTexture until views are detached. By reusing the same
              * SurfaceTexture, we don't have to reconfigure MediaCodec when it signals a video size
              * change (and when a new VLC vout is created) */
@@ -599,6 +600,12 @@ public class AWindow implements IVLCVout {
                 }
                 mSurface = new Surface(mSurfaceTexture);
             }
+            return true;
+        }
+
+        private synchronized boolean attachToGLContext(int texName) {
+            if (!createSurface())
+                return false;
             mSurfaceTexture.attachToGLContext(texName);
             mFrameAvailable = false;
             mIsAttached = true;
@@ -677,6 +684,8 @@ public class AWindow implements IVLCVout {
         }
 
         private synchronized Surface getSurface() {
+            if (!createSurface())
+                return null;
             return mSurface;
         }
 
